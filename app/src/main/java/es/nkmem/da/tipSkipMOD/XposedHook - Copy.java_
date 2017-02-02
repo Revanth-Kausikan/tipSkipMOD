@@ -1,0 +1,148 @@
+package tipSkipMOD;
+
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import android.content.*;
+
+public class XposedHook implements IXposedHookLoadPackage {
+    public static String TAG = "[Hide VoLTE Icon] ";
+    public static final String PACKAGE_SYSTEMUI = "com.android.systemui";
+    private static final String CLASS_SIGNAL_CLUSTER_VIEW = "com.android.systemui.statusbar.phone.StatusBarIconController";
+
+    resparam.res.hookLayout("com.android.systemui", "layout", "navigation_bar", new XC_LayoutInflated() {
+        @Override
+        public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
+
+        }
+
+//    @Override
+//    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+//        if (!lpparam.packageName.equals(PACKAGE_SYSTEMUI)) {
+//            return;
+//        }
+//        XposedBridge.log(TAG + "Hooking SignalClusterView");
+//        Class<?> classSignalClusterView = XposedHelpers.findClass(CLASS_SIGNAL_CLUSTER_VIEW, lpparam.classLoader);
+//        XposedHelpers.findAndHookMethod(classSignalClusterView, "onTuningChanged", String.class, String.class, onApplyHook);
+//    }
+//
+//    private static XC_MethodHook onApplyHook = new XC_MethodHook() {
+//        @Override
+//        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//            XposedBridge.log(TAG + " inside method");
+//            int str = (int) param.getResult();
+//
+//            if (param.getResult() != null) {
+////             let's replace it
+//                param.setResult(2130838494);}
+            // 'param.args' are the arguments passed to the method, we get the first one and compare it
+//            Intent it = (Intent) param.args[0];
+//            String str = it.getStringExtra("ss");
+//            String name = (String) param.args[0];
+//            if ("NOT_READY".equals(str)) {
+                // let's replace it
+//                param.args[0] = it.putExtra("ss", "READY");}
+//                param.args[0] = "NEW NAME";}
+
+//            String volteVisible = "mHasNoSims";
+//            if (XposedHelpers.getBooleanField(param.thisObject, volteVisible)) {
+//                XposedBridge.log(TAG + " ... ... "  + param.args[0] + " " + param.args[1]); // + it.getStringExtra("ss"));
+//                XposedHelpers.setBooleanField(param.thisObject, param.args[0], true);
+
+            //param.args[0] = true;
+//            }
+//        }
+//    };
+}
+
+--------------------------------------------------------------------------------------------------------------
+
+package tipSkipMOD;
+
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import java.util.concurrent.TimeUnit;
+import android.content.*;
+import static de.robv.android.xposed.XposedHelpers.findClass;
+
+public class XposedHook implements IXposedHookZygoteInit {
+    public static String TAG = "[Hide VoLTE Icon] ";
+    public static final String PACKAGE_SYSTEMUI = "android";
+    private static final String CLASS_SIGNAL_CLUSTER_VIEW = "android.telephony.TelephonyManager";
+
+    @Override
+    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
+//        if (!startupParam.modulePath.equals(PACKAGE_SYSTEMUI)) {
+//            return;
+//        }
+        XposedBridge.log(TAG + "Hooked System");
+
+        Class<?> audioServiceClass = findClass(CLASS_SIGNAL_CLUSTER_VIEW, null);
+
+        XposedBridge.hookAllMethods(audioServiceClass, "getSimCount", mStreamTypeOverride);
+//        Class<?> classSignalClusterView = XposedHelpers.findClass(CLASS_SIGNAL_CLUSTER_VIEW, null);
+//        XposedHelpers.findAndHookMethod(classSignalClusterView, "isValidSlotId", int.class, onApplyHook);
+    }
+
+    XC_MethodHook mStreamTypeOverride = new XC_MethodHook() {
+        @Override
+        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//            int slotid = (int) param.args[0];
+//            if (slotid == 1) {
+//                param.setResult(false);
+//                XposedBridge.log(TAG + "CHANGED");
+//            }
+//            XposedBridge.log(TAG + " slotid is..." + String.valueOf(param.args[0]));
+                    int str = (int) param.getResult();
+                    param.setResult(1);
+                    XposedBridge.log(TAG + " with result is... " + String.valueOf(param.getResult()));
+
+//            private static XC_MethodHook onApplyHook = new XC_MethodHook() {
+//                @Override
+//                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                    Boolean str = (boolean) param.getResult();
+//                    XposedBridge.log(TAG + " with result is... " + String.valueOf(str));
+//                }
+//
+//                @Override
+//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                    XposedBridge.log(TAG + " slotid is..." + String.valueOf(param.args[0]));
+
+
+//                }
+//            String volteVisible = "DEBUG";
+//            if (XposedHelpers.getBooleanField(param.thisObject, volteVisible)) {
+//                XposedBridge.log(TAG + "changing DEBUG");
+//                XposedHelpers.setBooleanField(param.thisObject, volteVisible, true);
+//            TimeUnit.SECONDS.sleep(1);
+
+//            if (param.getResult() != null) {
+////             let's replace it
+//                param.setResult(2130838494);}
+//             'param.args' are the arguments passed to the method, we get the first one and compare it
+//            Intent it = (Intent) param.args[0];
+//            String str = it.getStringExtra("ss");
+//            String name = (String) param.args[0];
+//            if ("NOT_READY".equals(str)) {
+//                 let's replace it
+//                param.args[0] = it.putExtra("ss", "READY");}
+//                param.args[0] = "NEW NAME";}
+//
+//            String volteVisible = "mHasNoSims";
+//            if (XposedHelpers.getBooleanField(param.thisObject, volteVisible)) {
+//                XposedBridge.log(TAG + " ... ... "  + param.args[0] + " " + param.args[1]); // + it.getStringExtra("ss"));
+//                XposedHelpers.setBooleanField(param.thisObject, param.args[0], true);
+//
+//            param.args[0] = true;
+            }
+
+
+
+    };
+}
