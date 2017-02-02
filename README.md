@@ -11,4 +11,4 @@ I'd like to thank @josephcsible from XDA for his help.
 Android Studio 2.2.3 and Graddle
 
 The link for the Xposed repo is: http://repo.xposed.info/module/es.nkmem.da.tipSkipMOD
-For any questions, even though I don't know anything about Java/Xposed, you can use the Issues link from this Github to post them (https://github.com/hardastyle/HideSIMIcon/issues)
+For any questions, even though I don't know anything about Java/Xposed, you can use the Issues link from this Github to post them (https://github.com/hardastyle/tipSkipMOD/issues)
